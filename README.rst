@@ -14,6 +14,12 @@ For Excel
 	Save a bunch of dict objects in excel . 
 
 
+**conversation_to_train_set.py**::
+
+	Convert Conversation Parts to QA train set 
+	
+
+
 
 
 
