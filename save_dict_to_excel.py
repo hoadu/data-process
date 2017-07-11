@@ -1,6 +1,7 @@
-
 import xlsxwriter
 import string
+
+
 # pip install XlsxWriter
 
 
@@ -14,9 +15,10 @@ class ExcelDriver(object):
     def write(self, item):
         self.current_index += 1
         for name, value in item.items():
-            index = self.header_indexes[name]
+            if self.header_indexes.get(name):
+                index = self.header_indexes[name]
 
-            self.work_sheet.write('{}{}'.format(index, str(self.current_index)), value)
+                self.work_sheet.write('{}{}'.format(index, str(self.current_index)), value)
 
     def __enter__(self):
         return self
@@ -49,10 +51,8 @@ if __name__ == '__main__':
     fpath = 'test.xlsx'
     excel = ExcelDriver(fpath)
 
-    with excel as f :
-        f.switch_sheet("sheet_1",["name","age","gender"])
-        f.write({"name":"wenter","age":100, "gender":None})
-        f.write({"name":"wenter_2","age":100, "gender":None})
-
-        
+    with excel as f:
+        f.switch_sheet("sheet_1", ["name", "age", "gender"])
+        f.write({"name": "wenter", "age": 100, "gender": None})
+        f.write({"name": "wenter_2", "age": 100, "gender": None})
 

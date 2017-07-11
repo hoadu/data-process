@@ -1,3 +1,9 @@
 *xlsx
 *pyc
+.idea
+venv
+*out
+*prof
+*.zip
+
 
