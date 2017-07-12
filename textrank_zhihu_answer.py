@@ -28,7 +28,7 @@ from textrank4zh import TextRank4Sentence
 tr4s = TextRank4Sentence()
 
 
-def text_summarization(text, summary_count=1):
+def text_summarization(text, summary_count=3):
     tr4s.analyze(text=text, lower=True)
     for item in tr4s.get_key_sentences(num=summary_count):
         yield item.sentence
@@ -48,7 +48,8 @@ if __name__ == '__main__':
                                    table='zhihu_answers')
 
     answers = list(answers)
-    answers = filter(lambda x: x['up_count'] > 100, answers)
+    answers = filter(lambda x: int(x['up_count']) > 100 if len(x['up_count']) > 0  else False, answers)
+    print(len(answers))
 
     print("Summarization started!")
 
@@ -74,12 +75,12 @@ if __name__ == '__main__':
     #
     # cProfile.run("map_summarization(answers[1])", filename="text_rank.out")
 
-    total_answers = Pool(12).map(map_summarization, answers)
+    total_answers = Pool(15).map(map_summarization, answers)
     # total_answers = map(map_summarization, answers[:100])
 
     print(len(total_answers))
     print("Summarization finished!")
-    total_answers = filter(lambda x: x['answer_1'] < 300, total_answers)
+    total_answers = filter(lambda x: len(x['answer_1']) < 140, total_answers)
 
     from save_dict_to_excel import ExcelDriver
     from list_helper import slice_list
